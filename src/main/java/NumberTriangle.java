@@ -86,8 +86,18 @@ public class NumberTriangle {
      *
      */
     public int retrieve(String path) {
-        // TODO implement this method
-        return -1;
+        NumberTriangle route = this;
+        for (int i = 0; i < path.length(); i++) {
+            char ch = path.charAt(i);
+
+            if (ch == 'l'){
+                route = route.left;
+            }
+            else if (ch == 'r'){
+                route = route.right;
+            }
+        }
+        return route.getRoot();
     }
 
     /** Read in the NumberTriangle structure from a file.
@@ -151,5 +161,6 @@ public class NumberTriangle {
         // Problem 18 from project Euler [not for credit]
         mt.maxSumPath();
         System.out.println(mt.getRoot());
+        System.out.println(mt.retrieve("llrl"));
     }
 }

@@ -41,8 +41,6 @@ public class NumberTriangle {
     public void setLeft(NumberTriangle left) {
         this.left = left;
     }
-
-
     public void setRight(NumberTriangle right) {
         this.right = right;
     }
@@ -109,25 +107,38 @@ public class NumberTriangle {
         InputStream inputStream = NumberTriangle.class.getClassLoader().getResourceAsStream(fname);
         BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
 
-
-        // TODO define any variables that you want to use to store things
-
-        // will need to return the top of the NumberTriangle,
-        // so might want a variable for that.
-        NumberTriangle top = null;
-
+        // Variables
+        // to return top of triangle
         String line = br.readLine();
-        while (line != null) {
+        NumberTriangle top = null;
+        top = makeTriangle(line, br)[0];
 
-            // remove when done; this line is included so running starter code prints the contents of the file
-            System.out.println(line);
-
-            // TODO process the line
-
-            //read the next line
-            line = br.readLine();
-        }
         br.close();
+
+        return top;
+    }
+
+    private static NumberTriangle [] makeTriangle(String curLine, BufferedReader br) throws IOException {
+        String nextLine = br.readLine();
+        String[] curSplit = curLine.split(" ");
+        NumberTriangle [] top = new NumberTriangle[curSplit.length];
+
+        if (nextLine != null) {
+            String[] nextSplit = nextLine.split(" ");
+            NumberTriangle [] bottom = makeTriangle(nextLine, br);
+
+            for (int i = 0; i < curSplit.length; i++) {
+                top[i] = new NumberTriangle(Integer.parseInt(curSplit[i]));
+                top[i].setLeft(bottom[i]);
+                top[i].setRight(bottom[i + 1]);
+            }
+        }
+        else {
+            for (int i = 0; i < curSplit.length; i++) {
+                top[i] = new NumberTriangle(Integer.parseInt(curSplit[i]));
+            }
+        }
+
         return top;
     }
 
